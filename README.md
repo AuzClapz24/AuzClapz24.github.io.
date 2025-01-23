@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,8 +25,8 @@
             padding: 15px 30px;
             font-size: 18px;
             font-weight: bold;
-            color: #fff;
-            background-color: #4caf50;
+            color: #000000;
+            background-color: #000000;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -35,12 +34,12 @@
         }
 
         .button:hover {
-            background-color: #45a049;
+            background-color: #000000;
             transform: scale(1.1);
         }
 
         .button:active {
-            background-color: #3e8e41;
+            background-color: #000000;
             transform: scale(0.95);
         }
     </style>
