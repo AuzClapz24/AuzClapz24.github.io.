@@ -46,7 +46,7 @@
 </head>
 <body>
     <div class="button-container">
-        <button class="button" onclick="openPacman()">Play</button>
+        <button class="button" onclick="document.location'https://google.com'">Play</button>
         <button class="button" onclick="openThisFile()">Instructions</button>
     </div>
 
