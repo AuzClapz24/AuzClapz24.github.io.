@@ -50,14 +50,5 @@
         <button class="button" onclick="openThisFile()">Instructions</button>
     </div>
 
-    <script>
-        function openPacman() {
-            window.open('./PacMan.html', '_blank');
-        }
-
-        function openThisFile() {
-            window.open('./Instructions.html', '_self'); 
-        }
-    </script>
 </body>
 </html>
