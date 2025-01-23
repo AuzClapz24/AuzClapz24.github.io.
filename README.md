@@ -25,7 +25,7 @@
             padding: 15px 30px;
             font-size: 18px;
             font-weight: bold;
-            color: #000000;
+            color: #FFFFFF;
             background-color: #000000;
             border: none;
             border-radius: 5px;
