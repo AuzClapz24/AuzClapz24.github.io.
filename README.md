@@ -47,13 +47,15 @@
 <body>
     <div class="button-container">
         <button class="button" onclick="openPacman()">Play</button>
-        <button class="button" onclick="alert('Instructions: Use arrow keys to navigate.')">Instructions</button>
+        <button class="button" onclick="openInstructions()">Instructions</button>
     </div>
 
     <script>
         function openPacman() {
-            window.open('./Pac Man.html', '_blank');
+            window.open('./PacMan.html', '_blank');
         }
+        function openInstructions()
+        window.open('./Instructions.html', '_blank');
     </script>
 </body>
 </html>
