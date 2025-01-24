@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PackMan</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            font-family: 'Press Start 2P', cursive; /* Retro font */
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Retro Title */
+        h1 {
+            font-size: 4rem;
+            color: yellow;
+            text-shadow: 2px 2px 0 black, -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black;
+            margin-bottom: 50px;
+        }
+
+        /* Button Styles */
+        .button {
+            font-size: 1.5rem;
+            padding: 20px 50px;
+            margin: 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        .play-game {
+            background-color: limegreen;
+            color: black;
+            box-shadow: 0 0 15px limegreen;
+        }
+
+        .instructions {
+            background-color: dodgerblue;
+            color: black;
+            box-shadow: 0 0 15px dodgerblue;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(black, #111);
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image: url('stars.png'); /* Placeholder for pixelated stars */
+            animation: moveStars 30s linear infinite;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        @keyframes moveStars {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(-50%, -50%);
+            }
+        }
+    </style>
+    <script>
+        function playGame() {
+            alert('Game Starts! Add your game logic here.');
+        }
+
+        function showInstructions() {
+            location.href = "instructions.html"; // Navigate to instructions page
+        }
+    </script>
+</head>
+<body>
+    <h1>PackMan</h1>
+    <button class="button play-game" onclick="playGame()">Play Game</button>
+    <button class="button instructions" onclick="showInstructions()">Instructions</button>
+</body>
+</html>
