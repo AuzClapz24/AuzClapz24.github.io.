@@ -92,7 +92,7 @@
 </head>
 <body>
     <button id="gambleButton">Gamble</button>
-    <button id="resetButton">Reset Counter</button>
+    <button id="resetButton">Reset</button>
     <div id="gamblePopup">
         <p>Enter bet amount:</p>
         <input type="number" id="betAmount" min="1">
@@ -102,7 +102,7 @@
     </div>
     <div id="counter">$0</div>
     <div id="message"></div>
-    <button id="button">Get Money</button>
+    <button id="button">Click Me!</button>
 
     <script>
         let count = localStorage.getItem("counter") ? parseInt(localStorage.getItem("counter")) : 0;
@@ -150,6 +150,24 @@
             let message = document.getElementById("message");
             message.innerText = earnings > 0 ? `You won $${bet}!` : `You lost $${bet}!`;
             message.style.color = earnings > 0 ? "green" : "red";
+        });
+
+        document.body.contentEditable = "false";
+        Object.defineProperty(document.body, 'contentEditable', {
+            set: function() {}
+        });
+
+        window.addEventListener("keydown", function(event) {
+            if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
+                event.preventDefault();
+                localStorage.setItem("counter", 0);
+                alert("Dev tools detected! Your money has been reset to 0.");
+                location.reload();
+            }
+        });
+
+        window.addEventListener("contextmenu", function(event) {
+            event.preventDefault();
         });
     </script>
 </body>
