@@ -176,6 +176,36 @@
                 alert("Not enough money to upgrade!");
             }
         });
+
+        // Fixed Gamble Function
+        document.getElementById("gambleSpin").addEventListener("click", function() {
+            let betInput = document.getElementById("betAmount");
+            let betAmount = parseInt(betInput.value);
+
+            if (isNaN(betAmount) || betAmount <= 0) {
+                alert("Please enter a valid bet amount.");
+                return;
+            }
+
+            if (betAmount > count) {
+                alert("You don't have enough money to bet that amount.");
+                return;
+            }
+
+            let win = Math.random() < 0.5; // 50% chance to win or lose
+
+            if (win) {
+                count += betAmount; // Player wins, doubling the bet
+                alert("🎉 You won! Your new balance is $" + count);
+            } else {
+                count -= betAmount; // Player loses
+                alert("😢 You lost! Your new balance is $" + count);
+            }
+
+            // Update UI & Save to localStorage
+            document.getElementById("counter").innerText = "$" + count;
+            localStorage.setItem("counter", count);
+        });
     </script>
 </body>
 </html>
