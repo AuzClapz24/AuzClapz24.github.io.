@@ -43,6 +43,18 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        #upgradeButton {
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: lightblue;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
         #resetButton {
             position: absolute;
             top: 20px;
@@ -55,33 +67,25 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        #gamblePopup {
+        .popup {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 300px;
             background: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
-            transform: translateX(-200%);
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.3s ease-in-out, opacity 0.3s;
             opacity: 0;
             visibility: hidden;
         }
-        #gamblePopup.show {
-            transform: translateX(0);
+        .popup.show {
+            transform: translate(-50%, -50%) scale(1);
             opacity: 1;
             visibility: visible;
-        }
-        #closePopup {
-            margin-top: 10px;
-            padding: 5px 10px;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
         #message {
             font-size: 20px;
@@ -92,82 +96,85 @@
 </head>
 <body>
     <button id="gambleButton">Gamble</button>
+    <button id="upgradeButton">Upgrade</button>
     <button id="resetButton">Reset</button>
-    <div id="gamblePopup">
+    
+    <div id="gamblePopup" class="popup">
         <p>Enter bet amount:</p>
         <input type="number" id="betAmount" min="1">
         <button id="gambleSpin">Spin</button>
         <br>
-        <button id="closePopup">Close</button>
+        <button class="closePopup">Close</button>
     </div>
+    
+    <div id="upgradePopup" class="popup">
+        <p>Upgrade Income (Cost: <span id="upgradeCost">$10</span>)</p>
+        <button id="upgradeIncome">Upgrade</button>
+        <br>
+        <button class="closePopup">Close</button>
+    </div>
+    
     <div id="counter">$0</div>
     <div id="message"></div>
     <button id="button">Click Me!</button>
 
     <script>
         let count = localStorage.getItem("counter") ? parseInt(localStorage.getItem("counter")) : 0;
+        let income = localStorage.getItem("income") ? parseInt(localStorage.getItem("income")) : 1;
+        let upgradeCost = localStorage.getItem("upgradeCost") ? parseInt(localStorage.getItem("upgradeCost")) : 10;
         document.getElementById("counter").innerText = "$" + count;
+        document.getElementById("upgradeCost").innerText = "$" + upgradeCost;
 
         document.getElementById("button").addEventListener("click", function() {
-            count++;
+            count += income;
             document.getElementById("counter").innerText = "$" + count;
             localStorage.setItem("counter", count);
         });
 
         document.getElementById("resetButton").addEventListener("click", function() {
             count = 0;
+            income = 1;
+            upgradeCost = 10;
             document.getElementById("counter").innerText = "$" + count;
+            document.getElementById("upgradeCost").innerText = "$" + upgradeCost;
             localStorage.setItem("counter", count);
+            localStorage.setItem("income", income);
+            localStorage.setItem("upgradeCost", upgradeCost);
         });
+
+        function togglePopup(id) {
+            let popup = document.getElementById(id);
+            popup.classList.toggle("show");
+        }
 
         document.getElementById("gambleButton").addEventListener("click", function() {
-            let popup = document.getElementById("gamblePopup");
-            popup.classList.add("show");
+            togglePopup("gamblePopup");
+        });
+        
+        document.getElementById("upgradeButton").addEventListener("click", function() {
+            togglePopup("upgradePopup");
         });
 
-        document.getElementById("closePopup").addEventListener("click", function() {
-            let popup = document.getElementById("gamblePopup");
-            popup.classList.remove("show");
+        document.querySelectorAll(".closePopup").forEach(button => {
+            button.addEventListener("click", function() {
+                this.parentElement.classList.remove("show");
+            });
         });
 
-        document.getElementById("gambleSpin").addEventListener("click", function() {
-            let betInput = document.getElementById("betAmount");
-            let bet = parseInt(betInput.value);
-            if (isNaN(bet) || bet <= 0) {
-                alert("Please enter a valid bet amount.");
-                return;
+        document.getElementById("upgradeIncome").addEventListener("click", function() {
+            if (count >= upgradeCost) {
+                count -= upgradeCost;
+                income++;
+                upgradeCost += 10;
+                localStorage.setItem("counter", count);
+                localStorage.setItem("income", income);
+                localStorage.setItem("upgradeCost", upgradeCost);
+                document.getElementById("counter").innerText = "$" + count;
+                document.getElementById("upgradeCost").innerText = "$" + upgradeCost;
+                alert("Income upgraded! Now you earn " + income + " per click.");
+            } else {
+                alert("Not enough money to upgrade!");
             }
-            if (bet > count) {
-                alert("You Don't Have Enough Money!");
-                return;
-            }
-            let outcome = Math.random();
-            let earnings = outcome > 0.5 ? bet : -bet;
-            count += earnings;
-            count = Math.max(0, count);
-            document.getElementById("counter").innerText = "$" + count;
-            localStorage.setItem("counter", count);
-            let message = document.getElementById("message");
-            message.innerText = earnings > 0 ? `You won $${bet}!` : `You lost $${bet}!`;
-            message.style.color = earnings > 0 ? "green" : "red";
-        });
-
-        document.body.contentEditable = "false";
-        Object.defineProperty(document.body, 'contentEditable', {
-            set: function() {}
-        });
-
-        window.addEventListener("keydown", function(event) {
-            if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
-                event.preventDefault();
-                localStorage.setItem("counter", 0);
-                alert("Dev tools detected! Your money has been reset to 0.");
-                location.reload();
-            }
-        });
-
-        window.addEventListener("contextmenu", function(event) {
-            event.preventDefault();
         });
     </script>
 </body>
